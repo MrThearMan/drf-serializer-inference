@@ -2,14 +2,11 @@ from typing import (
     TYPE_CHECKING,
     Any,
     Callable,
-    Dict,
     ForwardRef,
-    List,
     Literal,
     Optional,
-    Tuple,
-    Type,
     TypedDict,
+    TypeVar,
     Union,
     _eval_type,  # type: ignore
     get_args,
@@ -25,21 +22,18 @@ except ImportError:
 __all__ = [
     "Any",
     "Callable",
-    "Dict",
     "eval_type",
     "ForwardRef",
     "get_args",
     "get_origin",
-    "List",
     "Literal",
     "Optional",
-    "Tuple",
-    "Type",
     "TYPE_CHECKING",
     "TypedDict",
     "TypesDict",
+    "TypeVar",
     "Union",
 ]
 
 eval_type = _eval_type
-TypesDict: TypeAlias = Dict[str, Union[Optional[Type], "TypesDict"]]  # type: ignore
+TypesDict: TypeAlias = dict[str, Union[Optional[type], "TypesDict"]]  # type: ignore

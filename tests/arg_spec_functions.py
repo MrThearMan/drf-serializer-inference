@@ -6,7 +6,7 @@ from functools import wraps
 
 from pydantic import BaseModel
 
-from serializer_inference.typing import TYPE_CHECKING, Dict, List, Literal, Optional, TypedDict, Union
+from serializer_inference.typing import TYPE_CHECKING, Literal, Optional, TypedDict, Union
 
 if TYPE_CHECKING:
     from tests.conftest import TestType
@@ -131,26 +131,26 @@ class Foo(TypedDict):
 
 class Bar(TypedDict):
     item: Foo
-    things: List[Foo]
-    other: Dict[str, Foo]
+    things: list[Foo]
+    other: dict[str, Foo]
 
 
 class Barr(TypedDict):
     item: "Foo"
-    things: List["Foo"]
-    other: Dict[str, "Foo"]
+    things: list["Foo"]
+    other: dict[str, "Foo"]
 
 
 class Baz(TypedDict):
     weird: Bar
-    nested: List[Dict[str, Bar]]
-    another: Dict[str, List[Bar]]
+    nested: list[dict[str, Bar]]
+    another: dict[str, list[Bar]]
 
 
 class Bazz(TypedDict):
     weird: "Barr"
-    nested: List[Dict[str, "Barr"]]
-    another: Dict[str, List["Barr"]]
+    nested: list[dict[str, "Barr"]]
+    another: dict[str, list["Barr"]]
 
 
 class Fizz(TypedDict):
@@ -164,7 +164,7 @@ class Buzz(TypedDict):
 
 class TestModel(BaseModel):
     field: int
-    other: List[str]
+    other: list[str]
 
 
 class LiteralModel(BaseModel):
@@ -548,11 +548,11 @@ def function_91() -> "Foo":
     pass
 
 
-def function_92() -> List["Foo"]:
+def function_92() -> list["Foo"]:
     pass
 
 
-def function_93() -> Dict[str, "Foo"]:
+def function_93() -> dict[str, "Foo"]:
     pass
 
 
