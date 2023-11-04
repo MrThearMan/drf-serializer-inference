@@ -1,3 +1,4 @@
+from contextlib import suppress
 from datetime import date, datetime, time, timedelta
 from decimal import Decimal
 from inspect import getfullargspec
@@ -42,11 +43,12 @@ __all__ = [
 ]
 
 
-TSerializer = TypeVar("T", bound=Serializer)
+TSerializer = TypeVar("TSerializer", bound=Serializer)
 
 
 def serializer_from_callable(func: Callable[..., Any], output: bool = False) -> type[Serializer]:
-    """Create a serializer from the parameter type hints of a callable.
+    """
+    Create a serializer from the parameter type hints of a callable.
     Attempt to infer the types from the default arguments if no typing information is available.
     If output is true, infer from callable return type.
     In this case, return type should be a TypedDict so that field conversion works.
@@ -61,10 +63,10 @@ def serializer_from_callable(func: Callable[..., Any], output: bool = False) -> 
 def inline_serializer(
     name: str,
     super_class: type[TSerializer] = Serializer,
-    fields: dict[str, Field] = None,
+    fields: Optional[dict[str, Field]] = None,
     many: bool = False,
 ) -> type[TSerializer]:
-    serializer: type[TSerializer] = type(name, (super_class,), fields or {})  # type: ignore
+    serializer: type[TSerializer] = type(name, (super_class,), fields or {})  # type: ignore[assignment]
     serializer.many = many
     return serializer
 
@@ -78,7 +80,7 @@ def _parameter_types(func: Callable[..., Any]) -> TypesDict:
 
     # Get types based on argument default values
     defaults: tuple[Any, ...] = args_spec.defaults or ()
-    for name, value in zip(reversed(args_spec.args), reversed(defaults)):  # noqa
+    for name, value in zip(reversed(args_spec.args), reversed(defaults)):
         if name in types:
             continue
         types[name] = type(value)
@@ -141,11 +143,11 @@ _standard_generics_to_typing_equivalents: dict[str, type] = {
 
 
 def _get_fields(types: TypesDict) -> dict[str, Field]:
-    """Convert types to serializer fields.
+    """
+    Convert types to serializer fields.
     TypedDicts and other classes with __annotations__ dicts
     are recursively converted to serializers based on their types.
     """
-
     fields: dict[str, Field] = {}
     for name, type_ in types.items():
         # Could not determine forward referenced TypedDict
@@ -210,15 +212,11 @@ def _forward_refs_to_types(
         types = ForwardRef(types)
 
     if isinstance(types, ForwardRef):
-        try:
+        with suppress(NameError):
             types = eval_type(types, global_namespace, global_namespace)
-        except NameError:
-            pass
 
     if hasattr(types, "__args__"):
-        args = []
-        for arg in types.__args__:
-            args.append(_forward_refs_to_types(arg, global_namespace))
+        args = [_forward_refs_to_types(arg, global_namespace) for arg in types.__args__]
         types = _standard_generics_to_typing_equivalents.get(getattr(types, "__qualname__", types), types)
         types.__args__ = tuple(args)
 
@@ -261,11 +259,11 @@ def _get_arg_types(
     arg_types = []
 
     for arg_type in origin_args:
-        arg_type = _forward_refs_to_types(arg_type, global_namespace)
+        arg_type = _forward_refs_to_types(arg_type, global_namespace)  # noqa: PLW2901
 
         if not hasattr(arg_type, "__annotations__"):
             if hasattr(arg_type, "__origin__"):
-                arg_type = _unwrap_generic(arg_type, global_namespace)
+                arg_type = _unwrap_generic(arg_type, global_namespace)  # noqa: PLW2901
 
             arg_types.append(arg_type)
             continue

@@ -8,7 +8,7 @@ from typing import (
     TypedDict,
     TypeVar,
     Union,
-    _eval_type,  # type: ignore
+    _eval_type,  # type: ignore[misc]
     get_args,
     get_origin,
 )
@@ -36,4 +36,4 @@ __all__ = [
 ]
 
 eval_type = _eval_type
-TypesDict: TypeAlias = dict[str, Union[Optional[type], "TypesDict"]]  # type: ignore
+TypesDict: TypeAlias = dict[str, Union[Optional[type], "TypesDict"]]  # type: ignore[assignment]
