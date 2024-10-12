@@ -193,7 +193,7 @@ def _unwrap_types(
     if hasattr(typ, "__origin__"):
         return _unwrap_generic(typ, global_namespace)
 
-    if not hasattr(typ, "__annotations__"):
+    if not hasattr(typ, "__annotations__") or not typ.__annotations__:
         return typ
 
     annotations: TypesDict = typ.__annotations__

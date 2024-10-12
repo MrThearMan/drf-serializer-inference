@@ -29,10 +29,14 @@ classifiers = [
     "Programming Language :: Python",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3 :: Only",
-    "Programming Language :: Python :: 3.9",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Framework :: Django",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.0",
+    "Framework :: Django :: 5.1",
 ]
 include = [
     "README.md",
@@ -46,15 +50,14 @@ exclude = [
 "Bug Tracker" = "https://github.com/MrThearMan/drf-serializer-inference/issues"
 
 [tool.poetry.dependencies]
-python = ">=3.9,<4"
-djangorestframework = ">=3.12.0"
+python = ">=3.10,<4"
+djangorestframework = ">=3.14.0"
 typing-extensions = {version = ">=4.7.1", python = "<3.10"}
 pydantic = {version = ">=2.0.3", optional = true}
 
 [tool.poetry.group.test.dependencies]
 pytest = "8.3.3"
-coverage = "7.6.1"
-pre-commit = "4.0.0"
+coverage = "7.6.2"
 tox = "4.21.2"
 tox-gh-actions = "3.2.0"
 
@@ -65,6 +68,7 @@ mkdocs-mermaid2-plugin = "1.1.1"
 
 [tool.poetry.group.lint.dependencies]
 mypy = "1.11.2"
+pre-commit = "4.0.1"
 djangorestframework-stubs = "3.15.1"
 
 [tool.poetry.extras]
@@ -146,7 +150,7 @@ ignore = [
 ]
 
 [tool.mypy]
-python_version = "3.12"
+python_version = "3.13"
 warn_return_any = "True"
 warn_unused_configs = "True"
 plugins = [
@@ -176,27 +180,27 @@ addopts = "-vv -s --log-cli-level=INFO"
 [tool.tox]
 legacy_tox_ini = """
 [tox]
-envlist = py{39, 310, 311, 312}-drf{312, 313, 314}
+envlist = py{310, 311, 312, 313}-django{42, 50, 51}
 isolated_build = true
 
 [gh-actions]
 python =
-    3.9: py39
     3.10: py310
     3.11: py311
     3.12: py312
+    3.13: py313
 
 [testenv]
 allowlist_externals =
     poetry
 deps =
-    drf312: Django >=3.2,<4.0
-    drf313: Django >=4.0,<4.1
-    drf314: Django >=4.2,<4.3
+    django42: Django >=4.2,<4.3
+    django50: Django >=5.0,<5.1
+    django51: Django >=5.1,<5.2
 
-    drf312: djangorestframework >=3.12.0,<3.13.0
-    drf313: djangorestframework >=3.13.0,<3.14.0
-    drf314: djangorestframework >=3.14.0,<3.15.0
+    django42: djangorestframework >=3.14.0,<3.15.0
+    django50: djangorestframework >=3.15.0,<3.16.0
+    django51: djangorestframework >=3.15.0,<3.16.0
 
     pytest
     coverage
@@ -207,5 +211,5 @@ commands =
 """
 
 [build-system]
-requires = ["poetry-core>=1.7.0"]
+requires = ["poetry-core>=1.9.0"]
 build-backend = "poetry.core.masonry.api"
