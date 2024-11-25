@@ -1,6 +1,6 @@
 __all__ = [
-    "snake_case_to_pascal_case",
     "snake_case_to_camel_case",
+    "snake_case_to_pascal_case",
 ]
 
 
