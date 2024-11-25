@@ -20,19 +20,19 @@ except ImportError:
     from typing_extensions import TypeAlias
 
 __all__ = [
+    "TYPE_CHECKING",
     "Any",
     "Callable",
-    "eval_type",
     "ForwardRef",
-    "get_args",
-    "get_origin",
     "Literal",
     "Optional",
-    "TYPE_CHECKING",
+    "TypeVar",
     "TypedDict",
     "TypesDict",
-    "TypeVar",
     "Union",
+    "eval_type",
+    "get_args",
+    "get_origin",
 ]
 
 eval_type = _eval_type
