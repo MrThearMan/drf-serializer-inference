@@ -67,7 +67,7 @@ pymdown-extensions = "10.15"
 mkdocs-mermaid2-plugin = "1.2.1"
 
 [tool.poetry.group.lint.dependencies]
-mypy = "1.15.0"
+mypy = "1.16.0"
 pre-commit = "4.2.0"
 djangorestframework-stubs = "3.16.0"
 
