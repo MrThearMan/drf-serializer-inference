@@ -80,7 +80,7 @@ def _parameter_types(func: Callable[..., Any]) -> TypesDict:
 
     # Get types based on argument default values
     defaults: tuple[Any, ...] = args_spec.defaults or ()
-    for name, value in zip(reversed(args_spec.args), reversed(defaults)):
+    for name, value in zip(reversed(args_spec.args), reversed(defaults), strict=False):
         if name in types:
             continue
         types[name] = type(value)
